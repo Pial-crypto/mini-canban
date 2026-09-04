@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module.js';
 import { PrismaModule } from './prisma/prisma.module.js';
 import { CommonModule } from './common/common.module.js';
 import { BoardsModule } from './boards/boards.module.js';
+import { ColumnsModule } from './columns/columns.module.js';
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
 @Module({
@@ -22,6 +23,7 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
     PrismaModule,
     CommonModule,
     BoardsModule,
+    ColumnsModule,
     
   ],
   controllers: [AppController],

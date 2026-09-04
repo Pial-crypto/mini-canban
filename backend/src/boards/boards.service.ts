@@ -24,6 +24,7 @@ export class BoardsService {
     _count: { select: { columns: true } },
   } as const;
 
+
   async create(userId: string, dto: CreateBoardDto) {
     return this.prisma.board.create({
       data: {
@@ -48,6 +49,7 @@ export class BoardsService {
 
   async findOne(userId: string, boardId: string) {
     await this.access.requireRole(userId, boardId, BoardRole.VIEWER);
+    // console.log('findOne', { userId, boardId });
     const board = await this.prisma.board.findUnique({
       where: { id: boardId },
       include: {
@@ -58,11 +60,13 @@ export class BoardsService {
         },
       },
     });
+    // console.log('findOne result', { board });
     if (!board) throw new NotFoundException('Board not found');
     return board;
   }
 
   async update(userId: string, boardId: string, dto: UpdateBoardDto) {
+    // console.log('update', { userId, boardId, dto });
     await this.access.requireRole(userId, boardId, BoardRole.EDITOR);
     return this.prisma.board.update({
       where: { id: boardId },
@@ -72,6 +76,7 @@ export class BoardsService {
   }
 
   async remove(userId: string, boardId: string) {
+    // console.log('remove', { userId, boardId });
     await this.access.requireRole(userId, boardId, BoardRole.OWNER);
     await this.prisma.board.delete({ where: { id: boardId } });
     return { success: true };
@@ -84,6 +89,8 @@ export class BoardsService {
       where: { email: dto.email.toLowerCase() },
     });
     if (!targetUser) {
+      // console.log("not found target user")
+      // console.log('share', { userId, boardId, dto, targetUser });
       throw new NotFoundException('No registered user with that email');
     }
 
@@ -110,6 +117,7 @@ export class BoardsService {
     memberUserId: string,
     dto: UpdateMemberRoleDto,
   ) {
+
     await this.access.requireRole(userId, boardId, BoardRole.OWNER);
     return this.prisma.boardMember.update({
       where: { boardId_userId: { boardId, userId: memberUserId } },
@@ -118,10 +126,13 @@ export class BoardsService {
   }
 
   async removeMember(userId: string, boardId: string, memberUserId: string) {
+    // console.log('removeMember', { userId, boardId, memberUserId });
     await this.access.requireRole(userId, boardId, BoardRole.OWNER);
     if (memberUserId === userId) {
+      console.log("i am inside memberUserId === userId")
       throw new ForbiddenException('Owner cannot remove themselves');
     }
+
     await this.prisma.boardMember.delete({
       where: { boardId_userId: { boardId, userId: memberUserId } },
     });
