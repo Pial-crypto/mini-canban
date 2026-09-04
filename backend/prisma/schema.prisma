@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
- 
+
 }
 
 enum BoardRole {
@@ -20,11 +20,8 @@ model User {
   name             String
   createdAt        DateTime      @default(now())
   updatedAt        DateTime      @updatedAt
-  
-
-
   ownedBoards      Board[]       @relation("BoardOwner")
-  
+  boardMemberships BoardMember[]
 }
 
 model Board {
@@ -33,21 +30,46 @@ model Board {
   description String?
   ownerId     String
   owner       User          @relation("BoardOwner", fields: [ownerId], references: [id], onDelete: Cascade)
-
+  members     BoardMember[]
   columns     Column[]
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
 }
+
+model BoardMember {
+  id        String    @id @default(uuid())
+  boardId   String
+  board     Board     @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role      BoardRole @default(EDITOR)
+  createdAt DateTime  @default(now())
+
+  @@unique([boardId, userId])
+}
+
 model Column {
   id        String   @id @default(uuid())
   title     String
   position  Float
   boardId   String
   board     Board    @relation(fields: [boardId], references: [id], onDelete: Cascade)
- 
+  tasks     Task[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
- 
+  @@index([boardId])
 }
 
+model Task {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  position    Float
+  columnId    String
+  column      Column   @relation(fields: [columnId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([columnId])
+}
