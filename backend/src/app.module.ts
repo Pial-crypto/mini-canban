@@ -7,6 +7,7 @@ import { PrismaModule } from './prisma/prisma.module.js';
 import { CommonModule } from './common/common.module.js';
 import { BoardsModule } from './boards/boards.module.js';
 import { ColumnsModule } from './columns/columns.module.js';
+import { TasksModule } from './tasks/tasks.module.js';
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
 @Module({
@@ -19,11 +20,12 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
       serviceId: 'backend',
 
     }),
-    AuthModule,
     PrismaModule,
     CommonModule,
+    AuthModule,
     BoardsModule,
     ColumnsModule,
+    TasksModule,
     
   ],
   controllers: [AppController],
