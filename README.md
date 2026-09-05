@@ -232,14 +232,32 @@ frontend/
 
 ## 8. Notes / possible follow-ups
 
-- Tokens are stored in `localStorage` for simplicity; an httpOnly-cookie session would be a
-  more hardened choice for production.
-- The move/reorder endpoints use fractional positions; an optional periodic "renormalize"
-  job could reset positions to clean integers if a column saw an extreme number of inserts
-  at the exact same spot (this is a very high bar — see `PositionService` comments).
-- No live/websocket sync between simultaneous viewers yet — a second collaborator's changes
-  appear on next reload of the board.
-- Deployment: not deployed live for this submission; see Docker instructions above to run
-  locally. `frontend`/`backend` Dockerfiles are production-ready (`next build`/`nest build`)
-  and can be pushed to any container host (Fly.io, Render, ECS, etc.) with a managed
-  Postgres instance.
+- **Pagination:** The current implementation loads the available boards in a simple way. As the number of boards and users grows, **server-side pagination** will be introduced so that only the required records are fetched per page.
+
+- **Search and filtering:** As datasets grow, **search and filtering** will be added for boards, columns, tasks, and members to keep the UI efficient and easy to navigate.
+
+- **Database indexing:** **Additional database indexes** will be introduced on frequently queried fields as the dataset grows to maintain query performance.
+
+- **Query optimization:** Prisma queries and relation loading will be **optimized and reduced to only the required fields** when larger datasets make unnecessary data fetching expensive.
+
+- **Caching:** **Caching** can be introduced for frequently accessed data when database traffic increases.
+
+- **Lazy loading:** Large datasets and resource-heavy sections can use **lazy loading or incremental loading** to reduce the initial amount of data transferred to the client.
+
+- **API optimization:** **API responses will be optimized** as the application scales to avoid transferring unnecessary data between the frontend and backend.
+
+- **Rate limiting:** **API rate limiting and request optimization** was introduced to protect the backend and maintain stable performance under higher traffic.
+
+- **Background processing:** Expensive non-blocking operations can be moved to **background jobs** as the application grows.
+
+- **Horizontal scaling:** If traffic eventually exceeds the capacity of a single backend instance, the backend can be **scaled horizontally** behind a load balancer.
+
+- **Monitoring:** **Application, database, and API performance monitoring** can be added to identify bottlenecks and guide further optimization.
+
+- **Authentication hardening:** Tokens are currently stored in `localStorage` for simplicity; an **httpOnly-cookie-based session** would be a more hardened choice for production.
+
+- **Position maintenance:** The move/reorder endpoints use fractional positions; an optional periodic **position renormalization job** could reset positions to clean integers if a column saw an extreme number of inserts at the exact same spot.
+
+- **Real-time synchronization:** There is currently no live/websocket sync between simultaneous viewers. **WebSocket-based real-time synchronization** can be introduced when collaborative live updates become necessary.
+
+- **Deployment:** Not deployed live for this submission; see Docker instructions above to run locally. The `frontend`/`backend` Dockerfiles are production-ready (`next build`/`nest build`) and can be pushed to a container host with a managed PostgreSQL instance.
