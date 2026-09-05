@@ -44,7 +44,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = useCallback(
     async (email: string, password: string) => {
       const res = await api.login({ email, password });
-      console.log(res,"Login res")
+      // console.log(res,"Login res")
       setToken(res.accessToken);
       setUser(res.user);
       router.push('/boards');

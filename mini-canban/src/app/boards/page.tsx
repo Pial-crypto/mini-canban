@@ -17,14 +17,14 @@ function BoardsPageContent() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [creating, setCreating] = useState(false);
-console.log("user", user);
+// console.log("user", user);
   async function loadBoards() {
     setLoading(true);
     try {
       const data = await api.listBoards();
       setBoards(data);
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       setError(err instanceof ApiError ? err.message : 'Failed to load boards');
     } finally {
       setLoading(false);

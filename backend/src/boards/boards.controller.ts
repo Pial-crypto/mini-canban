@@ -26,13 +26,13 @@ export class BoardsController {
 
   @Post()
   create(@CurrentUser() user: AuthUser, @Body() dto: CreateBoardDto) {
-    console.log('BoardsController.create', { user, dto });
+    // console.log('BoardsController.create', { user, dto });
     return this.boardsService.create(user.userId, dto);
   }
 
   @Get()
   list(@CurrentUser() user: AuthUser) {
-    console.log('BoardsController.list', { user });
+    // console.log('BoardsController.list', { user });
     return this.boardsService.listForUser(user.userId);
   }
 

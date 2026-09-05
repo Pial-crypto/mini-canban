@@ -11,7 +11,7 @@ export interface JwtPayload {
 export class JwtStrategy extends PassportStrategy(Strategy) {
 
   constructor() {
-    console.log('JwtStrategy constructor called');
+    // console.log('JwtStrategy constructor called');
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
@@ -21,7 +21,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
 
   async validate(payload: JwtPayload) {
-    console.log('JwtStrategy.validate', { payload });
+    // console.log('JwtStrategy.validate', { payload });
     return { userId: payload.sub, email: payload.email };
   }
 }

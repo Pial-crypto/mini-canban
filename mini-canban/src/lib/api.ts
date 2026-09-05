@@ -32,7 +32,7 @@ export function clearToken() {
 
 async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
   const token = getToken();
-  console.log('Requesting', { path, options, token });
+  // console.log('Requesting', { path, options, token });
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
     ...(options.headers as Record<string, string>),

@@ -38,7 +38,7 @@ export class BoardsService {
 
 
   async listForUser(userId: string) {
-    console.log('listForUser', { userId });
+    // console.log('listForUser', { userId });
     return this.prisma.board.findMany({
       where: {
         OR: [{ ownerId: userId }, { members: { some: { userId } } }],
@@ -130,7 +130,7 @@ export class BoardsService {
     // console.log('removeMember', { userId, boardId, memberUserId });
     await this.access.requireRole(userId, boardId, BoardRole.OWNER);
     if (memberUserId === userId) {
-      console.log("i am inside memberUserId === userId")
+      // console.log("i am inside memberUserId === userId")
       throw new ForbiddenException('Owner cannot remove themselves');
     }
 

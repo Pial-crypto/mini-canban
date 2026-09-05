@@ -10,10 +10,10 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     context: ExecutionContext,
     status?: any,
   ) {
-    console.log('JWT handleRequest');
-    console.log('err:', err);
-    console.log('user:', user);
-    console.log('info:', info);
+    // console.log('JWT handleRequest');
+    // console.log('err:', err);
+    // console.log('user:', user);
+    // console.log('info:', info);
 
     return super.handleRequest(err, user, info, context, status);
   }
