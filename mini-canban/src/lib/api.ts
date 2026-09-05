@@ -32,6 +32,7 @@ export function clearToken() {
 
 async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
   const token = getToken();
+  console.log('Requesting', { path, options, token });
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
     ...(options.headers as Record<string, string>),
@@ -45,8 +46,8 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
     try {
       const body = await res.json();
       message = Array.isArray(body.message) ? body.message.join(', ') : body.message || message;
-    } catch {
-      // ignore body parse failure
+    } catch(error) {
+      console.error('Failed to parse error response', error);
     }
     throw new ApiError(message, res.status);
   }

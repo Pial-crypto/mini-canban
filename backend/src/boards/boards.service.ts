@@ -36,8 +36,9 @@ export class BoardsService {
     });
   }
 
-  /** All boards the user owns or has been granted membership on. */
+
   async listForUser(userId: string) {
+    console.log('listForUser', { userId });
     return this.prisma.board.findMany({
       where: {
         OR: [{ ownerId: userId }, { members: { some: { userId } } }],

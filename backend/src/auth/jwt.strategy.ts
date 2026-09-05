@@ -9,15 +9,19 @@ export interface JwtPayload {
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
+
   constructor() {
+    console.log('JwtStrategy constructor called');
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: process.env.JWT_SECRET || 'dev-secret-change-me',
+      secretOrKey: process.env.JWT_SECRET || 'dev-json-secret',
     });
   }
 
+
   async validate(payload: JwtPayload) {
+    console.log('JwtStrategy.validate', { payload });
     return { userId: payload.sub, email: payload.email };
   }
 }

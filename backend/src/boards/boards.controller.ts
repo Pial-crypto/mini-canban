@@ -17,7 +17,8 @@ import {
   UpdateBoardDto,
   UpdateMemberRoleDto,
 } from './dto/board.dto.js';
-
+import { ApiBearerAuth } from '@nestjs/swagger';
+@ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
 @Controller('boards')
 export class BoardsController {
@@ -25,11 +26,13 @@ export class BoardsController {
 
   @Post()
   create(@CurrentUser() user: AuthUser, @Body() dto: CreateBoardDto) {
+    console.log('BoardsController.create', { user, dto });
     return this.boardsService.create(user.userId, dto);
   }
 
   @Get()
   list(@CurrentUser() user: AuthUser) {
+    console.log('BoardsController.list', { user });
     return this.boardsService.listForUser(user.userId);
   }
 

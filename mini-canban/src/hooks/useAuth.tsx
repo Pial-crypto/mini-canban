@@ -44,6 +44,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = useCallback(
     async (email: string, password: string) => {
       const res = await api.login({ email, password });
+      console.log(res,"Login res")
       setToken(res.accessToken);
       setUser(res.user);
       router.push('/boards');
@@ -76,6 +77,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
 export function useAuth() {
   const ctx = useContext(AuthContext);
+  // console.log(ctx,"This is the cts")
   if (!ctx) throw new Error('useAuth must be used within AuthProvider');
   return ctx;
 }
