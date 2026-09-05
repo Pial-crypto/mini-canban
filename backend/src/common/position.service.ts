@@ -5,7 +5,7 @@ const GAP = 1024;
 
 @Injectable()
 export class PositionService {
-  /** Position for a brand new item appended to the end of a list. */
+ 
   nextPosition(existingPositions: number[]): number {
     if (existingPositions.length === 0) return GAP;
     return Math.max(...existingPositions) + GAP;

@@ -18,12 +18,17 @@ import {
   UpdateMemberRoleDto,
 } from './dto/board.dto.js';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { RateLimit } from '../common/decorators/rate-limit.decorator.js';
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
 @Controller('boards')
 export class BoardsController {
   constructor(private boardsService: BoardsService) {}
 
+  @RateLimit({
+  limit: 5,
+  windowMs: 60_000,
+})
   @Post()
   create(@CurrentUser() user: AuthUser, @Body() dto: CreateBoardDto) {
     // console.log('BoardsController.create', { user, dto });

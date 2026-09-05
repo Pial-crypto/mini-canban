@@ -2,15 +2,7 @@ import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/commo
 import { BoardRole } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service.js';
 
-/**
- * Centralizes authorization checks so that Boards/Columns/Tasks controllers
- * all enforce access consistently. A user has access to a board if they are
- * the owner, or a BoardMember row exists for them.
- *
- * Role hierarchy (highest to lowest): OWNER > EDITOR > VIEWER.
- * VIEWER can only read. EDITOR and OWNER can mutate columns/tasks.
- * Only OWNER can delete the board or manage membership.
- */
+
 @Injectable()
 export class BoardAccessService {
   constructor(private prisma: PrismaService) {}
@@ -28,10 +20,6 @@ export class BoardAccessService {
     }
   }
 
-  /**
-   * Returns the effective role of a user on a board, or null if they have
-   * no access at all.
-   */
   async getRole(userId: string, boardId: string): Promise<BoardRole | null> {
     const board = await this.prisma.board.findUnique({
       where: { id: boardId },
@@ -46,11 +34,7 @@ export class BoardAccessService {
     return membership?.role ?? null;
   }
 
-  /**
-   * Throws NotFoundException if the board doesn't exist (avoids leaking
-   * existence to unauthorized users), or ForbiddenException if the user's
-   * role is below the required minimum.
-   */
+
   async requireRole(
     userId: string,
     boardId: string,

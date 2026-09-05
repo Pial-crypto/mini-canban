@@ -8,6 +8,8 @@ import { CommonModule } from './common/common.module.js';
 import { BoardsModule } from './boards/boards.module.js';
 import { ColumnsModule } from './columns/columns.module.js';
 import { TasksModule } from './tasks/tasks.module.js';
+import { APP_GUARD } from '@nestjs/core';
+import { RateLimitGuard } from './common/guards/rate-limit.guard.js';
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
 @Module({
@@ -20,6 +22,7 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
       serviceId: 'backend',
 
     }),
+    
     PrismaModule,
     CommonModule,
     AuthModule,
@@ -29,6 +32,6 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
     
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, { provide: APP_GUARD, useClass: RateLimitGuard }],
 })
 export class AppModule {}
