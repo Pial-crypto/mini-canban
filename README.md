@@ -260,4 +260,9 @@ frontend/
 
 - **Real-time synchronization:** There is currently no live/websocket sync between simultaneous viewers. **WebSocket-based real-time synchronization** can be introduced when collaborative live updates become necessary.
 
-- **Deployment:** Not deployed live for this submission; see Docker instructions above to run locally. The `frontend`/`backend` Dockerfiles are production-ready (`next build`/`nest build`) and can be pushed to a container host with a managed PostgreSQL instance.
+- **Deployment:** Fully deployed and available online. The frontend is hosted on Vercel and the backend/API is hosted on Railway with live Swagger API documentation. See the links below:
+
+  - **Frontend:** https://mini-canban.vercel.app/
+  - **Backend API / Swagger:** https://mini-canban-production.up.railway.app/api/docs
+
+  The `frontend`/`backend` Dockerfiles are also production-ready (`next build`/`nest build`) and can be used to deploy the application to other container hosts with a managed PostgreSQL instance.
